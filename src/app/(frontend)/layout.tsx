@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import GradualBlur from '@/components/reactbits/gradual';
+import GradualBlur from "@/components/reactbits/gradual";
+import Navbar from "@/components/custom/Navbar";
+import AOSInitializer from "@/components/custom/AOSinitializer";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -15,9 +17,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
+        {/* Jalankan AOS */}
+        <AOSInitializer />
+
         <section className="relative min-h-screen overflow-hidden">
-          {/* Scrollable content */}
           <div className="h-full">
+            <Navbar />
             {children}
           </div>
 

@@ -6,6 +6,10 @@ import { FiHome } from "react-icons/fi";
 import { GiHammerNails, GiDeskLamp } from "react-icons/gi";
 import SpotlightCard from '@/components/reactbits/spotlight';
 import Image from "next/image";
+import BenefitSection from "./components/section/benefit";
+import MottoPage from "./components/section/motto";
+import PricePage from "./components/section/harga";
+import StepPage from "./components/section/langkah";
 
 
 export default function LuxuryContractor() {
@@ -116,7 +120,7 @@ export default function LuxuryContractor() {
       size: "col-span-2", // lebar
     },
   ];
-  
+
 
 
   return (
@@ -125,12 +129,12 @@ export default function LuxuryContractor() {
       {/* Hero Section */}
       <section className="relative h-screen flex items-center justify-center">
 
-<Image
-  src="/images/background/bg11.jpg"
-  alt="Hero House"
-  fill
-  className="absolute inset-0 object-cover"
-/>
+        <Image
+          src="/images/background/bg11.jpg"
+          alt="Hero House"
+          fill
+          className="absolute inset-0 object-cover"
+        />
 
         <div className="absolute inset-0 bg-black/50"></div>
         <motion.div
@@ -241,6 +245,18 @@ export default function LuxuryContractor() {
           ))}
         </motion.div>
       </div>
+
+      {/* Motto Section */}
+      <BenefitSection/>
+
+      {/* Motto Section */}
+      <MottoPage/>
+
+      {/* Price Section */}
+      <PricePage/>
+
+      {/* Step Section */}
+      <StepPage/>
     </div>
   );
 }

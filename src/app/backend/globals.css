@@ -2,6 +2,9 @@
 
 @custom-variant dark (&:is(.dark *));
 
+input{
+    outline: none;
+  }
 @theme {
   --font-*: initial;
   --font-outfit: Outfit, sans-serif;

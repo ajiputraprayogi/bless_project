@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { FaInstagram, FaFacebook, FaLinkedin, FaTwitter, FaEnvelope } from "react-icons/fa";
 import Link from "next/link";
+import OrderForm from "../components/section/order";
 
 export default function ContactPage() {
   const socials = [
@@ -39,7 +40,7 @@ export default function ContactPage() {
   };
 
   return (
-    <section className="min-h-screen bg-black text-white px-6 py-16 flex items-center justify-center">
+    <section className="min-h-screen bg-black text-white px-6 py-16 flex flex-col items-center justify-center">
       <motion.div
         initial="hidden"
         animate="show"
@@ -76,6 +77,7 @@ export default function ContactPage() {
           ))}
         </div>
       </motion.div>
+       <OrderForm />
     </section>
   );
 }

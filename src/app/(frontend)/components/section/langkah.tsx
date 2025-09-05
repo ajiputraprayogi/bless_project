@@ -43,7 +43,7 @@ export default function StepPage() {
             </li>
           </ul>
           <p className="text-sm text-green-300">
-            * Tim Arsitek akan memberikan sket denah dan penawaran biaya desain
+            * Tim Arsitek akan memberikan sketch denah dan penawaran biaya desain
             berdasarkan perkiraan luasan bangunan yang diperlukan.
           </p>
         </motion.div>

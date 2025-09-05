@@ -31,7 +31,7 @@ const prices: PriceItem[] = [
 export default function PricePage() {
   const handleContact = (range: string, category: string) => {
     const message = `Halo Admin, saya ingin menanyakan biaya desain untuk kategori: ${category}, dengan luas bangunan ${range}.`;
-    const waUrl = `https://wa.me/6281234567890?text=${encodeURIComponent(
+    const waUrl = `https://wa.me/6282237666321?text=${encodeURIComponent(
       message
     )}`;
     window.open(waUrl, "_blank");

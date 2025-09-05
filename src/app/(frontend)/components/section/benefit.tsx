@@ -33,14 +33,16 @@ export default function BenefitSection() {
   ];
 
   return (
-    <section className="relative mx-auto max-w-7xl px-4 py-20 bg-gradient-to-b from-black via-neutral-950 to-black">
+    <section className="relative mx-auto max-w-7xl px-4 py-5 md:py-20 bg-gradient-to-b from-black via-neutral-950 to-black">
+        
       <div className="grid grid-cols-1 gap-10 md:grid-cols-2">
         {/* KERUGIAN */}
         <motion.div
-          initial={{ opacity: 0, x: -40 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ once: true }}
+        //   initial={{ opacity: 0, x: -40 }}
+        //   whileInView={{ opacity: 1, x: 0 }}
+        //   transition={{ duration: 0.6 }}
+        //   viewport={{ once: true }}
+        data-aos="fade-right"
           className="rounded-3xl border border-red-500/30 bg-gradient-to-br from-neutral-900 to-neutral-950 p-8 shadow-lg"
         >
           <h2 className="text-xl md:text-2xl font-extrabold text-red-500 mb-6">
@@ -58,19 +60,20 @@ export default function BenefitSection() {
 
         {/* KEUNTUNGAN */}
         <motion.div
-          initial={{ opacity: 0, x: 40 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ once: true }}
-          className="rounded-3xl border border-yellow-500/40 bg-gradient-to-br from-neutral-900 to-neutral-950 p-8 shadow-lg"
+        //   initial={{ opacity: 0, x: 40 }}
+        //   whileInView={{ opacity: 1, x: 0 }}
+        //   transition={{ duration: 0.6 }}
+        //   viewport={{ once: true }}
+        data-aos="fade-left"
+          className="rounded-3xl border border-green-500/40 bg-gradient-to-br from-neutral-900 to-neutral-950 p-8 shadow-lg"
         >
-          <h2 className="text-xl md:text-2xl font-extrabold text-yellow-400 mb-6">
+          <h2 className="text-xl md:text-2xl font-extrabold text-green-400 mb-6">
             MENGAPA BLESS ARCHITECT ?
           </h2>
           <ul className="space-y-3 text-sm md:text-base text-neutral-300">
             {keuntungan.map((point, i) => (
               <li key={i} className="flex gap-3">
-                <FiCheckCircle className="mt-0.5 flex-shrink-0 text-yellow-400" />
+                <FiCheckCircle className="mt-0.5 flex-shrink-0 text-green-400" />
                 <span>{point}</span>
               </li>
             ))}

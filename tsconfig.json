@@ -22,6 +22,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/components/reactbits/spotlight.jsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/components/reactbits/spotlight.jsx", "src/app/(frontend)/components/section/service.tsx"],
   "exclude": ["node_modules"]
 }

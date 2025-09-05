@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useMemo, useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import {
   Table,
   TableBody,
@@ -18,34 +19,32 @@ import {
   flexRender,
   FilterFn,
 } from "@tanstack/react-table";
-import Input from '@/components/form/input/InputField';
+import Input from "@/components/form/input/InputField";
+import Button from "@/components/ui/button/Button";
 
-
-
-// ----- Interface -----
 interface User {
   id: number;
   name: string;
   email: string;
 }
 
-// Custom global filter (cek semua kolom)
+// Custom global filter
 const globalFilterFn: FilterFn<User> = (row, columnId, filterValue) => {
   const search = String(filterValue).toLowerCase();
-
   const values = Object.values(row.original)
     .map((val) => (val ? String(val) : ""))
     .join(" ")
     .toLowerCase();
-
   return values.includes(search);
 };
 
 export default function UsersTable() {
+  const router = useRouter();
   const [data, setData] = useState<User[]>([]);
   const [globalFilter, setGlobalFilter] = useState("");
+  const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 5 });
 
-  // ----- Fetch dari API -----
+  // Fetch data
   useEffect(() => {
     const fetchUsers = async () => {
       try {
@@ -54,61 +53,61 @@ export default function UsersTable() {
         const users = await res.json();
         setData(users || []);
       } catch (err) {
-        console.error("Error fetch users:", err);
+        console.error(err);
       }
     };
     fetchUsers();
   }, []);
 
-  // ----- Definisi kolom -----
-  const columns = useMemo<ColumnDef<User>[]>(() => [
-    {
-      id: "no",
-      header: "No",
-      cell: ({ row }) => row.index + 1, // otomatis nomor urut
-    },
-    {
-      accessorKey: "name",
-      header: "Nama",
-      cell: ({ row }) => (
-        <span className="font-medium text-gray-800 dark:text-white/90">
-          {row.original.name}
-        </span>
-      ),
-    },
-    {
-      accessorKey: "email",
-      header: "Email",
-    },
-    {
-      id: "actions",
-      header: "Opsi",
-      cell: ({ row }) => (
-        <div className="flex gap-2">
-          <button
-            onClick={() => console.log("Edit:", row.original.id)}
-            className="px-2 py-1 text-xs rounded bg-blue-500 text-white hover:bg-blue-600"
-          >
-            Edit
-          </button>
-          <button
-            onClick={() => console.log("Hapus:", row.original.id)}
-            className="px-2 py-1 text-xs rounded bg-red-500 text-white hover:bg-red-600"
-          >
-            Hapus
-          </button>
-        </div>
-      ),
-    },
-  ], []);
+  // Columns
+  const columns = useMemo<ColumnDef<User>[]>(
+    () => [
+      {
+        id: "no",
+        header: "No",
+        cell: ({ row }) =>
+          row.index + 1 + pagination.pageIndex * pagination.pageSize,
+      },
+      {
+        accessorKey: "name",
+        header: "Nama",
+      },
+      {
+        accessorKey: "email",
+        header: "Email",
+      },
+      {
+        id: "actions",
+        header: "Opsi",
+        cell: ({ row }) => (
+          <div className="flex gap-2">
+            <Button
+              size="xs"
+              className="!bg-blue-500 hover:!bg-blue-600 text-white"
+              onClick={() => console.log("Edit:", row.original.id)}
+            >
+              Edit
+            </Button>
+            <Button
+              size="xs"
+              className="!bg-red-500 hover:!bg-red-600 text-white"
+              onClick={() => console.log("Hapus:", row.original.id)}
+            >
+              Hapus
+            </Button>
+          </div>
+        ),
+      },
+    ],
+    [pagination.pageIndex, pagination.pageSize]
+  );
 
-
-  // ----- Table instance -----
   const table = useReactTable({
     data,
     columns,
-    state: { globalFilter },
+    state: { globalFilter, pagination },
     onGlobalFilterChange: setGlobalFilter,
+    onPaginationChange: setPagination,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
@@ -118,20 +117,32 @@ export default function UsersTable() {
 
   return (
     <div className="overflow-hidden rounded-xl border border-gray-200 bg-white dark:border-white/[0.05] dark:bg-white/[0.03] p-4">
-      {/* Search */}
-      <div className="w-full md:w-1/3">
-        <Input
-          type="text"
-          placeholder="Search in all columns..."
-          value={globalFilter ?? ""}
-          onChange={(e) => setGlobalFilter(e.target.value)}
-          className="mb-3 w-full rounded-md border px-3 py-2 text-sm"
-        />
+      {/* Top bar */}
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-4 gap-2 md:gap-0">
+        <div className="flex justify-between md:justify-start items-center w-full md:w-auto">
+          <Button
+            size="sm"
+            variant="primary"
+            onClick={() => router.push("/backend/users/create")}
+          >
+            + Tambah User
+          </Button>
+        </div>
+
+        <div className="w-full md:w-1/3 md:ml-auto mt-2 md:mt-0">
+          <Input
+            type="text"
+            placeholder="Search in all columns..."
+            value={globalFilter ?? ""}
+            onChange={(e) => setGlobalFilter(e.target.value)}
+            className="w-full rounded-sm border px-3 py-2 text-sm"
+          />
+        </div>
       </div>
 
+      {/* Table */}
       <div className="max-w-full overflow-x-auto">
         <Table>
-          {/* Header */}
           <TableHeader className="border-b border-gray-100 dark:border-white/[0.05]">
             {table.getHeaderGroups().map((hg) => (
               <TableRow key={hg.id}>
@@ -160,19 +171,20 @@ export default function UsersTable() {
             ))}
           </TableHeader>
 
-          {/* Body */}
           <TableBody className="divide-y divide-gray-100 dark:divide-white/[0.05]">
             {table.getRowModel().rows.map((row) => (
               <TableRow key={row.id}>
                 {row.getVisibleCells().map((cell) => (
-                  <TableCell key={cell.id} className="px-4 py-3 text-theme-sm">
+                  <TableCell
+                    key={cell.id}
+                    className="px-4 py-3 text-theme-sm"
+                  >
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </TableCell>
                 ))}
               </TableRow>
             ))}
           </TableBody>
-
         </Table>
       </div>
 
